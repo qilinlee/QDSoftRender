@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "QDSoftRenderSample.h"
+#include "QDSoftRender\Device.h"
 
 #define MAX_LOADSTRING 100
 
@@ -13,11 +14,13 @@ TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 int wndClientRectWidth = 1024;					// the main window client rect width
 int wndClientRectHeight = 768;					// the main window client rect height
 HWND hWnd = NULL;								// current window handle
+HDC hWndDC = NULL;
 HDC hWndCompatibleDC = NULL;					// current window compatible device content
 HBITMAP hDIB = NULL;							// DIB
 HBITMAP hOldBITMAP = NULL;						// old BITMAP
 unsigned char *ptrFrameBuffer = NULL;			// frame buffer
 long frameBufferPitch = 0;
+QDSoftRender::DeviceSP g_spDevice = nullptr;
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -25,6 +28,7 @@ BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 BOOL				InitFrameBuffer();
 VOID				CloseWnd();
+VOID				InitDevice();
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -48,6 +52,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
+	InitDevice();
 	// Main message loop:
 	while (true)
 	{
@@ -70,6 +75,13 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				continue;
 			}
 
+			if (nullptr != g_spDevice)
+			{
+				g_spDevice->Clear(QDSoftRender::CLEAR_ALL);
+				g_spDevice->Draw();
+				g_spDevice->Present(ptrFrameBuffer);
+				BitBlt(hWndDC, 0, 0, wndClientRectWidth, wndClientRectHeight, hWndCompatibleDC, 0, 0, SRCCOPY);
+			}
 			lastDrawTick = curTick;
 		}
 	}
@@ -98,7 +110,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hInstance		= hInstance;
 	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_QDSOFTRENDERSAMPLE));
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground	= (HBRUSH)GetStockObject(BLACK_BRUSH);
+	wcex.hbrBackground	= (HBRUSH)GetStockObject(WHITE_BRUSH);
 	wcex.lpszMenuName	= nullptr;// MAKEINTRESOURCE(IDC_QDSOFTRENDERSAMPLE);
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -182,9 +194,9 @@ BOOL InitFrameBuffer()
 	if (!hWnd)
 		return FALSE;
 
-	HDC hDC = GetDC(hWnd);
-	hWndCompatibleDC = CreateCompatibleDC(hDC);
-	ReleaseDC(hWnd, hDC);
+	hWndDC = GetDC(hWnd);
+	hWndCompatibleDC = CreateCompatibleDC(hWndDC);
+	//ReleaseDC(hWnd, hDC);
 
 	BITMAPINFO bi = { { sizeof(BITMAPINFOHEADER), wndClientRectWidth, -wndClientRectHeight, 1, 32, BI_RGB,
 		wndClientRectWidth * wndClientRectHeight * 4, 0, 0, 0, 0 } };
@@ -217,9 +229,22 @@ VOID CloseWnd()
 		hDIB = NULL;
 	}
 
+	if (hWndDC)
+	{
+		ReleaseDC(hWnd, hWndDC);
+		hWndDC = NULL;
+	}
+
 	if (hWnd)
 	{
 		CloseWindow(hWnd);
 		hWnd = NULL;
 	}
 }
+
+VOID InitDevice()
+{
+	g_spDevice = QDSoftRender::Device::CreateDevice(wndClientRectWidth, wndClientRectHeight,
+		QDSoftRender::COLOR_R8G8B8A8, 0xFFFF0000);
+}
+
