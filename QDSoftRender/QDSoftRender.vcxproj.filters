@@ -21,6 +21,10 @@
     <ClInclude Include="math\Matrix.h">
       <Filter>math</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Utility.h" />
+    <ClInclude Include="Device.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="math\Vector.cpp">
@@ -29,6 +33,9 @@
     <ClCompile Include="math\Matrix.cpp">
       <Filter>math</Filter>
     </ClCompile>
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="Device.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="math\Matrix.inl">

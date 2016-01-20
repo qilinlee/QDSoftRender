@@ -2,7 +2,7 @@
 
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
-#include <stdexcept>
+//#include <stdexcept>
 
 namespace QDSoftRender
 {
