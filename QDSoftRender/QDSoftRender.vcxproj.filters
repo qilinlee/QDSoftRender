@@ -25,6 +25,8 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="Error.h" />
+    <ClInclude Include="DrawHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="math\Vector.cpp">
@@ -36,6 +38,8 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Error.cpp" />
+    <ClCompile Include="DrawHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="math\Matrix.inl">

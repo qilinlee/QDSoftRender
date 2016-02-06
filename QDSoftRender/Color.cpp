@@ -17,7 +17,7 @@ namespace QDSoftRender
 		m_dwHex = ToHex();
 	}
 
-	Color::Color(unsigned long dwHexColor)
+	Color::Color(unsigned int dwHexColor)
 		: m_dwHex(dwHexColor)
 	{
 		b = (dwHexColor & 0xFF) / 255.0f;
@@ -26,7 +26,7 @@ namespace QDSoftRender
 		alpha = ((dwHexColor & 0xFF000000) >> 24) / 255.0f;
 	}
 
-	unsigned long Color::ToHex()
+	unsigned int Color::ToHex()
 	{
 			unsigned long dwR = static_cast<unsigned long>(round(255.0f * r));
 			unsigned long dwG = static_cast<unsigned long>(round(255.0f * g));

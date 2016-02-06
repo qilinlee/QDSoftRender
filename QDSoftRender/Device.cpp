@@ -12,6 +12,7 @@ namespace QDSoftRender
 		, m_pFrameBuffer(nullptr)
 		, m_pZBuffer(nullptr)
 		, m_BackColor(dwBackColor)
+		, m_eDevState(DEVST_UNKNOWN)
 	{
 		m_pFrameBuffer = new unsigned int[m_iWidth * m_iHeight];
 		m_pZBuffer = new float[m_iWidth * m_iHeight];
@@ -28,6 +29,7 @@ namespace QDSoftRender
 		if (nullptr == _Instance)
 		{
 			_Instance = DeviceSP(new Device(iWidth, iHeight, color, dwBackColor));
+			_Instance->m_eDevState = DEVST_IDLE;
 		}
 
 		return _Instance;
@@ -44,6 +46,12 @@ namespace QDSoftRender
 
 	void Device::Clear(DeviceClearFlag flag)
 	{
+		if (DEVST_UNKNOWN == m_eDevState)
+		{
+			m_objLastError.ThrowError(0x0001, "device is wrong state.");
+			return;
+		}
+
 		if ((flag & CLEAR_COLOR) == CLEAR_COLOR)
 		{
 			for (int i = 0; i < m_iHeight * m_iWidth; ++i)
@@ -62,9 +70,14 @@ namespace QDSoftRender
 		memcpy( pCanvas, m_pFrameBuffer, m_iWidth * m_iHeight * Color::GetColorDataLength(m_eColorType));
 	}
 
-	void Device::Draw()
+	void Device::BeginDraw()
 	{
+		m_eDevState = DEVST_DRAWING;
+	}
 
+	void Device::EndDraw()
+	{
+		m_eDevState = DEVST_IDLE;
 	}
 
 }

@@ -36,12 +36,12 @@ namespace QDSoftRender
 		}
 	public:
 		Color(float fR, float fG, float fB, float fAlpha = 1.0f);
-		Color(unsigned long dwHexColor);
+		Color(unsigned int dwHexColor);
 
-		unsigned long Hex(){ return m_dwHex; }
+		unsigned int Hex(){ return m_dwHex; }
 
 	private:
-		unsigned long ToHex();
+		unsigned int ToHex();
 
 	public:
 		float r;
@@ -49,7 +49,7 @@ namespace QDSoftRender
 		float b;
 		float alpha;
 	private:
-		unsigned long m_dwHex;
+		unsigned int m_dwHex;
 	};
 }
 #endif

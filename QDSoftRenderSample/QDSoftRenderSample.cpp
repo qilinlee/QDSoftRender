@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "QDSoftRenderSample.h"
 #include "QDSoftRender\Device.h"
+#include "QDSoftRender\DrawHelper.h"
+#include "QDSoftRender\Color.h"
 
 #define MAX_LOADSTRING 100
 
@@ -78,7 +80,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			if (nullptr != g_spDevice)
 			{
 				g_spDevice->Clear(QDSoftRender::CLEAR_ALL);
-				g_spDevice->Draw();
+				DrawLine(g_spDevice, 10, 10, 100, 100, QDSoftRender::Color::Green);
 				g_spDevice->Present(ptrFrameBuffer);
 				BitBlt(hWndDC, 0, 0, wndClientRectWidth, wndClientRectHeight, hWndCompatibleDC, 0, 0, SRCCOPY);
 			}

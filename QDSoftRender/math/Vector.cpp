@@ -5,6 +5,158 @@
 
 namespace QDSoftRender
 {
+	//
+	//Vector2
+	//
+	const Vector2 Vector2::ZERO = Vector2();
+	const Vector2 Vector2::UNIT_X = Vector2(1.f, 0.f);
+	const Vector2 Vector2::UNIT_Y = Vector2(0.f, 1.f);
+
+	Vector2::Vector2()
+		: X(0.f)
+		, Y(0.f)
+	{
+	}
+
+	Vector2::Vector2(float x, float y)
+		: X(x)
+		, Y(y)
+	{
+
+	}
+
+	Vector2& Vector2::operator=(const Vector2& vec)
+	{
+		X = vec.X;
+		Y = vec.Y;
+		return *this;
+	}
+
+	Vector2 Vector2::operator+(const Vector2& vec) const
+	{
+		return Vector2(X + vec.X, Y + vec.Y);
+	}
+
+	Vector2 Vector2::operator-(const Vector2& vec) const
+	{
+		return Vector2(X - vec.X, Y - vec.Y);
+	}
+
+	Vector2 Vector2::operator*(float scalar) const
+	{
+		return Vector2(X * scalar, Y * scalar);
+	}
+
+	Vector2 Vector2::operator/(float scalar) const
+	{
+		if (scalar != 0.f)
+		{
+			float invScalar = 1.f / scalar;
+			return Vector2(X *invScalar, Y * invScalar);
+		}
+
+		return Vector2(
+			std::numeric_limits<float>::max(),
+			std::numeric_limits<float>::max()
+			);
+	}
+
+	Vector2 Vector2::operator-() const
+	{
+		return Vector2(-X, -Y);
+	}
+
+	Vector2& Vector2::operator+=(const Vector2& vec)
+	{
+		X += vec.X;
+		Y += vec.Y;
+		return *this;
+	}
+
+	Vector2& Vector2::operator-=(const Vector2& vec)
+	{
+		X -= vec.X;
+		Y -= vec.Y;
+		return *this;
+	}
+
+	Vector2& Vector2::operator*=(float scalar)
+	{
+		X *= scalar;
+		Y *= scalar;
+		return *this;
+	}
+
+	Vector2& Vector2::operator/=(float scalar)
+	{
+		if (scalar != 0.f)
+		{
+			float invScalar = 1.f / scalar;
+			X /= invScalar;
+			Y /= invScalar;
+		}
+		else
+		{
+			X = std::numeric_limits<float>::max();
+			Y = std::numeric_limits<float>::max();
+		}
+
+		return *this;
+	}
+
+	float Vector2::Length() const
+	{
+		return sqrtf((X * X + Y * Y));
+	}
+
+	float Vector2::SquaredLength() const
+	{
+		return (X * X + Y * Y);
+	}
+
+	float Vector2::Dot(const Vector2& vec) const
+	{
+		return (X * vec.X + Y * vec.Y);
+	}
+
+	void Vector2::Normalize()
+	{
+		float length = Length();
+		if (length < std::numeric_limits<float>::min())
+		{
+			X = 0.f;
+			Y = 0.f;
+		}
+		else
+		{
+			float invLength = 1.f / length;
+			X *= invLength;
+			Y *= invLength;
+		}
+	}
+
+	QDSoftRender::Vector2 Vector2::Lerp(const Vector2 &vec1, const Vector2 &vec2, float t)
+	{
+		return Vector2(
+			Util::Lerp(vec1.X, vec2.X, t),
+			Util::Lerp(vec1.Y, vec2.Y, t)
+			);
+	}
+
+	bool Vector2::operator==(const Vector2& vec)
+	{
+		return (Util::CompareFloat(X, vec.X) && 
+			Util::CompareFloat(Y, vec.Y));
+	}
+
+	bool Vector2::operator!=(const Vector2& vec)
+	{
+		return !(*this == vec);
+	}
+
+	//
+	//Vector3
+	//
 	const Vector3 Vector3::ZERO = Vector3();
 	const Vector3 Vector3::UNIT_X = Vector3(1.f, 0.f, 0.f);
 	const Vector3 Vector3::UNIT_Y = Vector3(0.f, 1.f, 0.f);
@@ -233,6 +385,18 @@ namespace QDSoftRender
 			Util::Lerp(vec1.Y, vec2.Y, t),
 			Util::Lerp(vec1.Z, vec2.Z, t)
 			);
+	}
+
+	bool Vector3::operator==(const Vector3& vec)
+	{
+		return (Util::CompareFloat(X, vec.X) &&
+			Util::CompareFloat(Y, vec.Y) &&
+			Util::CompareFloat(Z, vec.Z));
+	}
+
+	bool Vector3::operator!=(const Vector3& vec)
+	{
+		return !(*this == vec);
 	}
 
 	Vector3 operator* (float scalar, const Vector3& vec)

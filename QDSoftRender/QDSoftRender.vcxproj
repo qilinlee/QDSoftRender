@@ -86,6 +86,8 @@
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="DrawHelper.h" />
+    <ClInclude Include="Error.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="math\Math.h" />
     <ClInclude Include="math\Matrix.h" />
@@ -96,6 +98,8 @@
   <ItemGroup>
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="DrawHelper.cpp" />
+    <ClCompile Include="Error.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\Vector.cpp" />

@@ -4,6 +4,7 @@
 #define __DEVICE_H__
 #include <memory>
 #include "Color.h"
+#include "Error.h"
 
 namespace QDSoftRender
 {
@@ -13,6 +14,14 @@ namespace QDSoftRender
 		CLEAR_ZBUFFER = 2,
 
 		CLEAR_ALL = CLEAR_COLOR | CLEAR_ZBUFFER,
+
+	};
+
+	enum DeviceState
+	{
+		DEVST_UNKNOWN = 0,
+		DEVST_IDLE = 1,
+		DEVST_DRAWING = 2,
 
 	};
 
@@ -27,8 +36,11 @@ namespace QDSoftRender
 		~Device();
 
 		void Clear(DeviceClearFlag flag);
-		void Draw();
 		void Present(unsigned char *pCanvas);
+		void BeginDraw();
+		void EndDraw();
+
+		friend void DrawPixel(DeviceSP spDevice, int iX, int iY, Color color);
 	private:
 		Device(int iWidth,int iHeight,ColorDataType color,unsigned long dwBackColor = 0xFFFFFFFF);
 		Device(const Device &src);
@@ -45,6 +57,9 @@ namespace QDSoftRender
 		unsigned int *m_pFrameBuffer;
 		float *m_pZBuffer;
 		Color m_BackColor;
+		DeviceState m_eDevState;
+		Error m_objLastError;
+
 	};
 }
 #endif

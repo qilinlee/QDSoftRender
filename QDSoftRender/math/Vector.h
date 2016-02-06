@@ -2,10 +2,55 @@
 
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
-//#include <stdexcept>
 
 namespace QDSoftRender
 {
+	class Vector2
+	{
+	public:
+		float X;
+		float Y;
+	public:
+		static const Vector2 ZERO;    // (0,0)
+		static const Vector2 UNIT_X;  // (1,0)
+		static const Vector2 UNIT_Y;  // (0,1)
+
+		Vector2();
+		Vector2(float x, float y);
+
+		// Assignment.
+		Vector2& operator= (const Vector2& vec);
+
+		// Arithmetic operations.
+		Vector2 operator+ (const Vector2& vec) const;
+		Vector2 operator- (const Vector2& vec) const;
+		Vector2 operator* (float scalar) const;
+		Vector2 operator/ (float scalar) const;
+		Vector2 operator- () const;
+
+		friend Vector2 operator* (float scalar, const Vector2& vec);
+
+		// Arithmetic updates.
+		Vector2& operator+= (const Vector2& vec);
+		Vector2& operator-= (const Vector2& vec);
+		Vector2& operator*= (float scalar);
+		Vector2& operator/= (float scalar);
+
+		bool operator==(const Vector2& vec);
+		bool operator!=(const Vector2& vec);
+
+		// Vector operations.
+		float Length() const;
+		float SquaredLength() const;
+		float Dot(const Vector2& vec) const;
+		void Normalize();
+		Vector2 UnitCross(const Vector2& vec) const;
+
+		static Vector2 Lerp(const Vector2 &vec1, const Vector2 &vec2, float t);
+
+	};
+
+
 	class Vector3
 	{
 	public:
@@ -38,6 +83,9 @@ namespace QDSoftRender
 		Vector3& operator-= (const Vector3& vec);
 		Vector3& operator*= (float scalar);
 		Vector3& operator/= (float scalar);
+
+		bool operator==(const Vector3& vec);
+		bool operator!=(const Vector3& vec);
 
 		// Vector operations.
 		float Length() const;
