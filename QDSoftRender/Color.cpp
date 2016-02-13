@@ -1,11 +1,11 @@
 #include "Color.h"
 namespace QDSoftRender
 {
-	const Color White = Color(1.0f, 1.0f, 1.0f, 1.0f);
-	const Color Black = Color(0.0f, 0.0f, 0.0f, 1.0f);
-	const Color Red = Color(1.0f, 0.0f, 0.0f, 1.0f);
-	const Color Green = Color(0.0f, 1.0f, 0.0f, 1.0f);
-	const Color Blue = Color(0.0f, 0.0f, 1.0f, 1.0f);
+	const Color Color::White = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	const Color Color::Black = Color(0.0f, 0.0f, 0.0f, 1.0f);
+	const Color Color::Red = Color(1.0f, 0.0f, 0.0f, 1.0f);
+	const Color Color::Green = Color(0.0f, 1.0f, 0.0f, 1.0f);
+	const Color Color::Blue = Color(0.0f, 0.0f, 1.0f, 1.0f);
 
 	Color::Color(float fR, float fG, float fB, float fAlpha /*= 1.0f*/)
 		: r(fR), g(fG), b(fB), alpha(fAlpha)

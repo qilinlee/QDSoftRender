@@ -40,6 +40,9 @@
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="DrawHelper.cpp" />
+    <ClCompile Include="math\Util.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="math\Matrix.inl">
